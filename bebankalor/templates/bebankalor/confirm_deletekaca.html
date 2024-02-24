@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h3><p> Are you sure you want to delete spek kaca: {{object.id}} ?"</p></h3>
+
+    <form method="POST" action="{% url 'bebankalor:deletekaca' object.id %}">
+        {% csrf_token %}
+
+
+        <input type="submit" value="Confirm" class="btn btn-warning">
+        <a href= "{% url 'bebankalor:setkaca' %}" class="btn btn-default"> Cancel </a>
+    </form>
+
+{% endblock content %}

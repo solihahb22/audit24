@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}<title>Local Library</title>{% endblock %}
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <!--  jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"> </script>
+    <script src='https://code.jquery.com/jquery-3.2.1.min.js'> </script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+</head>
+<body>
+ <div class="container">
+<ul class="nav nav-tabs">
+
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'bebankalor:index'  %}"  aria-current="page" >Profil Gedung</a>
+  </li>
+  <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Kalor Luar  </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'bebankalor:setdinding' %}">Dinding</a></li>
+            <li><a class="dropdown-item" href="{% url 'bebankalor:setkaca' %}">Kaca</a></li>
+            <li><a class="dropdown-item" href="{% url 'bebankalor:setpintu' %}">Pintu</a></li>
+            <li><a class="dropdown-item" href="{% url 'bebankalor:setbeton' %}">Beton</a></li>
+        </ul>
+    </li>
+  <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" id="navbarbdDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Kalor Dalam </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'bebankalor:setpenghuni' %}">Penghuni</a></li>
+            <li><a class="dropdown-item" href="{% url 'bebankalor:setcahaya' %}">Cahaya</a></li>
+            <li><a class="dropdown-item" href="{% url 'bebankalor:setalat' %}">Alat</a></li>
+        </ul>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'bebankalor:setinfiltrasiventilasi' %}" >Infiltrasi dan Ventilasi</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'bebankalor:viewspek'  %}" >Spesifikasi Gedung</a>
+  </li>
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" id="navbarcalcDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Kalkulasi Beban Kalor </a>
+      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+         <li><a class="dropdown-item" href="{% url 'bebankalor:caclbebantotal' %}">Beban Total</a></li>
+         <li><a class="dropdown-item" href="{% url 'bebankalor:caclbebanresume' %}">Beban Resume</a></li>
+         <!--<li><a class="dropdown-item" href="{% url 'bebankalor:calcinfandvent' %}">Infiltrasi dan Ventilasi</a></li>-->
+      </ul>
+  </li>
+</ul>
+ </div>
+
+     <div class="container">
+    {% block content %}
+    <div class="d-grid gap-3">
+ {% block subcontent %}
+
+   {% endblock subcontent %}
+    </div>
+
+    {% endblock content %}
+</div>
+<footer class="bd-footer py-5 mt-5 bg-light">
+    <div class="card text-center">
+  <div class="card-header">
+    Hak Cipta
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Audit Energy</h5>
+    <p class="copyright-text">Copyright &copy; 2023 All Rights Reserved by
+            <a href="#">LPPM Universitas Trisakti</a>
+        </p>
+    <p class="card-text">didukung oleh Prodi Informatika FTI Usakti</p>
+  </div>
+
+</div>
+    <div style="font-color:black; text-center">
+
+    </div>
+</footer>
+
+
+{% block javascript %}
+  <!-- Default content for the JavaScript block -->
+  {% endblock %}
+</body>
+</html>

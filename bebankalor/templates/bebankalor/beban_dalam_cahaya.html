@@ -1,0 +1,114 @@
+00{% extends "base.html" %}
+
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block content %}
+
+<div container>
+<div class="col-12" xmlns="http://www.w3.org/1999/html">
+    <div class="alert alert-primary" role="alert">
+      <h3>{{pesan}}</h3>
+    </div>
+  </div>
+
+
+<div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      Beban Pencahayaan
+    </div>
+  </div>
+{% if form_cahaya %}
+<form class="col-12 mt-5" xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Gedung</label>
+        <div class="col-md-3">
+            {{form_cahaya.gedung}}
+        </div>
+
+
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Nama Ruang</label>
+        <div class="col-md-3">
+           {{form_cahaya.nama_ruang}}
+        </div>
+
+        <label class="col-md-2 col-form-label">Level Lantai</label>
+        <div class="col-md-3">
+            {{form_cahaya.level_lantai}}
+        </div>
+
+    </div>
+    <div class="form-group row">
+    <label class="col-md-2 col-form-label">Warna Cat Dinding</label>
+        <div class="col-md-3">
+            {{form_cahaya.warna_cat}}
+        </div>
+        <label class="col-md-3 col-form-label">Watt Lampu</label>
+        <div class="col-md-3">
+            {{form_cahaya.jenis_lampu}}
+        </div>
+    </div>
+    <div class="form-group row">
+
+        <label class="col-md-2 col-form-label">Jumlah Lampu</label>
+        <div class="col-md-3">
+            {{form_cahaya.jumlah_lampu}}
+        </div>
+
+
+    </div>
+
+        <div class="col-md-2 form-select">
+              <button type="submit" name="add_cahaya_btn">Tambah</button>
+         </div>
+
+</form>
+{% endif %}
+<table class="table table-bordered" >
+            <thead>
+                <tr >
+                     <!--th scope="col">ID </th-->
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Jenis Lampu (watt)</th>
+                    <th scope="col">Jumlah Lampu</th>
+                    <th scope="col">Warna Cat</th>
+                    <th scope="col">Aksi</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for cahaya in cahayas %}
+                <tr class = "record">
+
+                    <!--th scope="row" >{{cahaya.id}}</th-->
+                    <td><label >{{cahaya.gedung}}</label></td>
+                    <td><label >{{cahaya.level_lantai}}</label></td>
+                    <td><label >{{cahaya.jenis_lampu}}</label></td>
+                    <td><label >{{cahaya.jumlah_lampu}}</label></td>
+                    <td><label >{{cahaya.warna_cat}}</label></td>
+                    <td>
+                        <form method="post" action="#">
+                             {% csrf_token %}
+                             <a href="{% url 'bebankalor:updatecahaya' cahaya.id %}" class="btn btn-outline-success">Edit</a>
+                             <a href="{% url 'bebankalor:deletecahaya' cahaya.id %}" class="btn btn-outline-warning">Delete</a>
+                        </form>
+                    </td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+<br>
+
+</div>
+{% endblock content %}

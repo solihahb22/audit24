@@ -1,0 +1,351 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block content %}
+
+
+
+<div class ="container">
+<div class="col-12 mt-5">
+    <div class="alert alert-primary" role="alert">
+      Pilih Gedung dan Lantai
+    </div>
+  </div>
+
+{% if form %}
+<form class="col-12 mt-5" xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+     <div class="form-group row">
+        <label class="col-md-2 col-form-label">Gedung</label>
+         <div class="col-md-3">
+        {{form.gedung}}
+       </div>
+     </div>
+
+    <div class="form-group row">
+       <label class="col-md-2 col-form-label">Level Lantai</label>
+        <div class="col-md-3">
+         {{form.lantai}}
+        </div>
+        <div class="col-md-2 form-select">
+              <button type="submit" name="search_profil_btn">Cari</button>
+         </div>
+    </div>
+
+
+
+
+</form>
+{% endif %}
+
+    {% if status %}
+    <div class="col-12 mt-5">
+    <div class="alert alert-primary" role="alert">
+      Profil Gedung: {{status}}
+    </div>
+
+    {% if profil %}
+    <table class="table  table-sm">
+
+        <tbody>
+         <tr class="table-active">
+              <th scope="row"  style="width: 31%">Nama</th>
+              <td>{{profil.nama}}</td>
+
+         </tr>
+         <tr>
+              <th scope="row" >Alamat</th>
+              <td>{{profil.alamat_lokasi}} {{profil.lintang}} {{profil.posisi_lintang}}, {{profil.bujur}} {{profil.posisi_bujur}}</td>
+         </tr>
+        <tr class="table-active">
+              <th scope="row">Dimensi</th>
+              <td></td>
+         </tr>
+        <tr>
+              <th scope="row">Panjang (meter)</th>
+              <td>{{profil.dim_panjang}}</td>
+         </tr>
+        <tr class="table-active">
+              <th scope="row">Lebar (meter)</th>
+              <td>{{profil.dim_lebar}}</td>
+         </tr>
+        <tr>
+              <th scope="row">Tinggi (meter)</th>
+              <td>{{profil.dim_tinggi}}</td>
+         </tr>
+
+        <tr class="table-active">
+              <th scope="row">Temperatur</th>
+              <td></td>
+         </tr>
+        <tr >
+              <th scope="row">Temperatur Rata-Rata Harian (<sup>o</sup> Celcius)</th>
+              <td>     {{profil.temperatur_rh}}</td>
+         </tr>
+        <tr class="table-active">
+              <th scope="row">Temperatur yang akan dicapai (<sup>o</sup> Celcius)</th>
+              <td>     {{profil.temperatur_obj}}</td>
+         </tr>
+        </tbody>
+    </table>
+
+    {% endif %}
+
+    <div class="alert alert-primary" role="alert">
+      Beban Kalor Luar
+    </div>
+  </div>
+
+    <div class="col-12 mt-5">
+    <h5>Beban Kalor Luar Dinding</h5>
+     {% if  dindings %}
+    <table class="table table-bordered" id="coalTbl">
+            <thead>
+                <tr >
+                     <!--th scope="col">ID Dinding</th-->
+                   <th scope="col">Level Lantai</th>
+                     <th scope="col">Ruang</th>
+                    <th scope="col">Sisi</th>
+                    <th scope="col">luas</th>
+                    <th scope="col">tebal</th>
+                    <th scope="col">material</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for dinding in dindings %}
+                <tr class = "record">
+
+                    <!--th scope="row" >{{dinding.id}}</th-->
+                    <td><label >{{dinding.level_lantai}}</label></td>
+                    <td><label >{{dinding.nama_ruang}}</label></td>
+                    <td><label >{{dinding.sisi}}</label></td>
+                    <td><label >{{dinding.dim_luas}}</label></td>
+                    <td><label >{{dinding.dim_tebal}}</label></td>
+                    <td><label >{{dinding.material}}</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+     {% endif %}
+
+    <h5>Beban Kalor Luar Pintu</h5>
+    {% if  pintus %}
+     <table class="table table-bordered" >
+            <thead>
+                <tr >
+                     <!--th scope="col">ID Pintu</th-->
+
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Sisi</th>
+                    <th scope="col">luas</th>
+                    <th scope="col">tebal</th>
+                    <th scope="col">material</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for pintu in pintus %}
+                <tr class = "record">
+
+                    <!--th scope="row" >{{pintu.id}}</th-->
+
+                    <td><label >{{pintu.level_lantai}}</label></td>
+                    <td><label >{{pintu.sisi}}</label></td>
+                    <td><label >{{pintu.dim_luas}}</label></td>
+                   <td><label >{{pintu.dim_tebal}}</label></td>
+                    <td><label >{{pintu.material}}</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+     {% endif %}
+    <br>
+    <h5>Beban Kalor Luar Kaca</h5>
+    {% if  kacas %}
+<table class="table table-bordered" >
+            <thead>
+                <tr >
+                     <!--th scope="col">ID Kaca</th-->
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Sisi</th>
+                    <th scope="col">luas</th>
+                    <th scope="col">tebal</th>
+                    <th scope="col">material</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for kaca in kacas %}
+                <tr class = "record">
+
+                    <!--th scope="row" >{{kaca.id}}</th-->
+
+                    <td><label >{{kaca.level_lantai}}</label></td>
+                    <td><label >{{kaca.sisi}}</label></td>
+                    <td><label >{{kaca.dim_luas}}</label></td>
+                    <td><label >{{kaca.dim_tebal}}</label></td>
+                    <td><label >{{kaca.material}}</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    {% endif %}
+<br>
+    <h5>Beban Kalor Luar Beton</h5>
+    {% if betons %}
+     <table class="table table-bordered" id="betoninspecTbl">
+            <thead>
+                <tr >
+                    <!--th scope="col">ID Beton</th-->
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Sisi</th>
+                    <th scope="col">luas</th>
+                    <th scope="col">tebal</th>
+                    <th scope="col">material</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for beton in betons %}
+                <tr class = "record">
+
+                    <!--th scope="row" >{{beton.id}}</th-->
+                    <td><label >{{beton.gedung}}</label></td>
+                    <td><label >{{beton.level_lantai}}</label></td>
+                    <td><label >{{beton.sisi}}</label></td>
+                    <td><label >{{beton.dim_luas}}</label></td>
+                    <td><label >{{beton.dim_tebal}}</label></td>
+                    <td><label >{{beton.material}}</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    {% endif %}
+
+    </div>
+    <div class="alert alert-primary" role="alert">
+      Beban Kalor Dalam
+    </div>
+
+<br>
+    <h5>Beban Kalor Dalam Penghuni</h5>
+ {% if penghuni %}
+<table class="table table-bordered" >
+            <thead>
+                <tr >
+                     <!--th scope="col">ID Beban Penghuni</th-->
+
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Aktivitas</th>
+                    <th scope="col">Jumlah Penghuni</th>
+                    <th scope="col">Lama Aktivitas</th>
+                    <th scope="col">Total Aktivitas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class = "record">
+                    <!--th scope="row" >{{penghuni.id}}</th-->
+
+                    <td><label >{{penghuni.level_lantai}}</label></td>
+                    <td><label >{{penghuni.aktivitas}}</label></td>
+                    <td><label >{{penghuni.jumlah_penghuni}}</label></td>
+                    <td><label >{{penghuni.lama_aktivitas}}</label></td>
+                    <td><label >{{penghuni.total_aktivitas}}</label></td>
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
+<br>
+    <h5>Beban Kalor Dalam Pencahayaan</h5>
+    <br>
+    {% if cahayas %}
+    <table class="table table-bordered" >
+            <thead>
+                <tr >
+                     <!--th scope="col">ID </th-->
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Ruang</th>
+                    <th scope="col">Jenis Lampu (watt)</th>
+                    <th scope="col">Jumlah Lampu</th>
+                    <th scope="col">Warna Cat</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cahaya in cahayas %}
+                <tr class = "record">
+                    <!--th scope="row" >{{pintu.id}}</th-->
+                    <td><label >{{cahaya.level_lantai}}</label></td>
+                    <td><label >{{cahaya.nama_ruang}}</label></td>
+                    <td><label >{{cahaya.jenis_lampu}}</label></td>
+                   <td><label >{{cahaya.jumlah_lampu}}</label></td>
+                    <td><label >{{cahaya.warna_cat}}</label></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    <br>
+    <h5>Alat</h5>
+    {% if alats%}
+     <table class="table table-bordered" >
+            <thead>
+                <tr >
+                     <!--th scope="col">ID </th-->
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Ruang</th>
+                    <th scope="col">Jenis/Nama Alat</th>
+                    <th scope="col">Beban(watt)</th>
+                    <th scope="col">Jumlah(unit)</th>
+                    <th scope="col">Lama Pemakaian</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for alat in alats %}
+                <tr class = "record">
+
+                    <!--th scope="row" >{{alat.id}}</th-->
+                    <td><label >{{alat.gedung}}</label></td>
+                    <td><label >{{alat.level_lantai}}</label></td>
+                    <td><label >{{alat.nama_ruang}}</label></td>
+                    <td><label >{{alat.jenis_alat}}</label></td>
+                    <td><label >{{alat.beban}}</label></td>
+                    <td><label >{{alat.jumlah}}</label></td>
+                    <td><label >{{alat.lama_penggunaan}}</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    {% endif %}
+<div class="col-12 mt-5">
+    <div class="alert alert-light" role="alert">
+   </div>
+    <div class="alert alert-primary" role="alert">
+      Beban Infiltrasi dan Ventilasi
+    </div>
+  </div>
+    {% endif %}
+    </div>
+
+{% endblock content %}

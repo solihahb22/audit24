@@ -1,0 +1,282 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block content %}
+
+
+
+<div class ="container">
+<div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      Pilih Gedung dan Lantai
+    </div>
+  </div>
+
+{% if form %}
+<form xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+     <div class="form-group row">
+        <label class="col-md-2 col-form-label">Gedung</label>
+         <div class="col-md-3">
+        {{form.gedung}}
+       </div>
+     </div>
+
+    <div class="form-group row">
+       <label class="col-md-2 col-form-label">Level Lantai</label>
+        <div class="col-md-3">
+         {{form.lantai}}
+        </div>
+        <div class="col-md-2 form-select">
+              <button type="submit" name="search_profil_btn">Cari</button>
+         </div>
+    </div>
+
+
+
+
+</form>
+{% endif %}
+
+
+<div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      Beban Kalor Luar: Dinding
+    </div>
+  </div>
+
+    {% for bk in bk_dinding %}
+    <table class="table table-bordered" id="qdindingTbl">
+        {% if bk.status_dinding == 'partisi' %}
+        <tbody>
+         <tr class="table-active">
+              <th scope="row">Sisi </th>
+              <td>{{bk.sisi}}</td>
+
+         </tr>
+         <tr>
+              <th scope="row">Status Dinding</th>
+              <td>{{bk.status_dinding}} </td>
+         </tr>
+         <tr>
+              <th scope="row">Beban Kalor Dinding (Watt)</th>
+              <td>{{bk.q|floatformat:3}} </td>
+         </tr>
+        </tbody>
+        {% endif %}
+
+        {% if bk.status_dinding == 'nonpartisi' %}
+        <tbody>
+         <tr class="table-active">
+              <th scope="row">Sisi </th>
+              <td>{{bk.sisi}}</td>
+
+         </tr>
+         <tr>
+              <th scope="row">Status Dinding</th>
+              <td>{{bk.status_dinding}} </td>
+         </tr>
+         <tr>
+              <th scope="row">Beban Kalor Dinding</th>
+
+
+             <table class="table table-bordered" id="q_dinding">
+            <thead>
+                <tr >
+                    <th scope="col">Waktu</th>
+                    <th scope="col">CLTD</th>
+                    <th scope="col">CLTD Penyesuaian</th>
+                    <th scope="col">Q Dinding (Watt)</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for q_val in bk.q %}
+                <tr class = "record">
+                    <td><label >{{q_val.waktu}}</label></td>
+                    <td><label >{{q_val.cltd}}</label></td>
+                    <td><label >{{q_val.cltd_peny|floatformat:3}}</label></td>
+                    <td><label >{{q_val.q_d|floatformat:3}}</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+         </tr>
+        </tbody>
+        {% endif %}
+    </table>
+
+
+    {% endfor %}
+
+<div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      Beban Kalor Luar: Beton
+    </div>
+  </div>
+
+    {% for bk in bk_beton %}
+    <table class="table table-bordered" id="coalTbl">
+        {% if bk.status_beton == 'partisi' %}
+        <tbody>
+         <tr class="table-active">
+              <th scope="row">Sisi </th>
+              <td>{{bk.sisi}}</td>
+
+         </tr>
+         <tr>
+              <th scope="row">Status Beton</th>
+              <td>{{bk.status_beton}} </td>
+         </tr>
+         <tr>
+              <th scope="row">Beban Kalor Beton</th>
+              <td>{{bk.q |floatformat:2}} </td>
+         </tr>
+        </tbody>
+        {% endif %}
+
+        {% if bk.status_beton == 'nonpartisi' %}
+        <tbody>
+         <tr class="table-active">
+              <th scope="row">Sisi </th>
+              <td>{{bk.sisi}}</td>
+
+         </tr>
+         <tr>
+              <th scope="row">Status Beton</th>
+              <td>{{bk.status_beton}} </td>
+         </tr>
+         <tr>
+              <th scope="row">Beban Kalor Baton</th>
+
+
+             <table class="table table-bordered" id="q_beton">
+            <thead>
+                <tr >
+                    <th scope="col">Waktu</th>
+                    <th scope="col">CLTD</th>
+                    <th scope="col">CLTD Penyesuaian</th>
+                    <th scope="col">Q Beton (Watt)</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for q_val in bk.q %}
+                <tr class = "record">
+                    <td><label >{{q_val.waktu}}</label></td>
+                    <td><label >{{q_val.cltd}}</label></td>
+                    <td><label >{{q_val.cltd_peny|floatformat:3}}</label></td>
+                    <td><label >{{q_val.q_b|floatformat:3}}</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+         </tr>
+        </tbody>
+        {% endif %}
+    </table>
+
+
+    {% endfor %}
+
+<div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      Beban Kalor Luar: Kaca
+    </div>
+  </div>
+
+    {% for bk in bk_kaca %}
+    <table class="table table-bordered" id="kacaTbl">
+
+        <tbody>
+         <tr class="table-active">
+              <th scope="row">Sisi </th>
+              <td>{{bk.sisi}}</td>
+
+         </tr>
+         <tr>
+              <th scope="row">Status Kaca</th>
+              <td>{{bk.status}} </td>
+         </tr>
+         <tr>
+              <th scope="row">Beban Kalor Konduksi</th>
+                <table class="table table-bordered" id="qk_kaca">
+                  <thead>
+                <tr >
+                    <th scope="col">Waktu</th>
+                    <th scope="col">CLTD (<sup>o</sup>C)</th>
+                    <th scope="col">CLTD Penyesuaian(<sup>o</sup>C)</th>
+                    <th scope="col">Q Kaca (Watt)</th>
+
+                </tr>
+            </thead>
+                  <tbody>
+
+                    {% for q_val in bk.q_konduksi %}
+                    <tr class = "record">
+                    <td><label >{{q_val.waktu}}</label></td>
+                    <td><label >{{q_val.cltd}}</label></td>
+                    <td><label >{{q_val.cltd_peny|floatformat:2}}</label></td>
+                    <td><label >{{q_val.q_k|floatformat:3}}</label></td>
+
+                </tr>
+                    {% endfor %}
+
+                   </tbody>
+               </table>
+         </tr>
+
+
+        {% if bk.status == 'nonpartisi' %}
+
+         <tr>
+              <th scope="row">Beban Kalor Radiasi</th>
+             <table class="table table-bordered" id="qr_kaca">
+                <thead>
+                <tr >
+                    <th scope="col">Waktu</th>
+                    <th scope="col">CLF</th>
+                    <th scope="col">Q Radiasi</th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for q_val in bk.q_radiasi %}
+                <tr class = "record">
+                    <td><label >{{q_val.waktu}}</label></td>
+                    <td><label >{{q_val.clf}}</label></td>
+                    <td><label >{{q_val.q_rad}}</label></td>
+
+
+                </tr>
+                {% endfor %}
+
+                </tbody>
+             </table>
+
+         </tr>
+        {% endif %}
+        </tbody>
+
+    </table>
+
+
+    {% endfor %}
+
+
+
+</div>
+{% endblock content %}

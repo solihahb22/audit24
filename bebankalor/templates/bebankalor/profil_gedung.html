@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block content %}
+<div class ="container">
+ <div class="col-12 mt-5">
+    <div class="alert alert-primary" role="alert">
+      Profil gedung
+    </div>
+
+{% if form %}
+  <form method="post">
+  {% csrf_token %}
+
+        <div class="form-group row">
+       <label class="col-md-3 col-form-label ">Nama Gedung</label>
+            <div class="col-md-6">
+            {{form.nama}}
+        </div>
+        </div>
+
+    <br>
+    <div class="alert alert-secondary" role="alert">
+      Lokasi Gedung
+    </div>
+
+     <div class="form-group row ">
+       <label class="col-md-3 col-form-label">Alamat</label>
+         <div class="col-md-4">
+             {{form.alamat_lokasi}}
+        </div>
+
+     </div>
+    <div class="form-group row row">
+        <label class="col-md-3 col-form-label">Lintang </label>
+        <div class="col-md-3">
+            {{form.lintang}}
+        </div>
+
+        <div class="col-md-1" >
+            {{form.posisi_lintang}}
+        </div>
+    </div>
+      <div class="form-group row ">
+        <label class="col-md-3 col-form-label">Bujur</label>
+        <div class="col-md-3">
+            {{form.bujur}}
+        </div>
+
+        <div class="col-md-1">
+            {{form.posisi_bujur}}
+        </div>
+    </div>
+
+      <div class="alert alert-secondary" role="alert">
+      Dimensi
+      </div>
+
+  <div class="form-group row ">
+      <label class="col-md-3 col-form-label">Panjang (m)</label>
+      <div class="col-md-3" placeholder="meter">
+        {{form.dim_panjang}}
+      </div>
+
+    <label class="col-md-2 col-form-label">Lebar (m)</label>
+    <div class="col-md-1" placeholder="meter">
+      {{form.dim_lebar}}
+    </div>
+  </div>
+    <div class="form-group row ">
+    <label class="col-md-3 col-form-label">Tinggi (m)</label>
+    <div class="col-md-1" placeholder="meter">
+      {{form.dim_tinggi}}
+    </div>
+    </div>
+
+  <br>
+
+    <div class="alert alert-secondary" role="alert">
+          Temperatur dan Kecepatan Angin
+    </div>
+
+     <div class="form-group row">
+        <label class="col-md-3 col-form-label">Rerata Temperatur Harian (<sup>o</sup> C)</label>
+        <div class="col-sm-1">
+            {{form.temperatur_rh}}
+        </div>
+         <div class="col-md-2"></div>
+         <label class="col-md-3 col-form-label">Temperatur Tujuan (<sup>o</sup> C)</label>
+        <div class="col-sm-1" placeholder="derajat Celcius">
+            {{form.temperatur_obj}}
+        </div>
+     </div>
+        <div class="form-group row ">
+        <label class="col-md-3 col-form-label">Kecepatan Angin (m/s)</label>
+        <div class="col-sm-1" placeholder= "m/s">
+            {{form.kecepatan_angin}}
+        </div>
+
+
+     </div>
+
+
+     {% if edited %}
+     <button type="submit" class="btn btn-primary " name = "add_profil">Simpan</button>
+      {% endif %}
+
+</form>
+{% endif %}
+
+    <br>
+    <table class="table table-bordered" >
+            <thead>
+                <tr >
+                     <th scope="col">ID Gedung</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Alamat</th>
+                    <th scope="col">Lintang</th>
+                    <th scope="col">Bujur</th>
+                    <th scope="col ">Aksi</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for profilg in profiles %}
+                <tr class = "record">
+
+                    <th scope="row" >{{profilg.id}}</th>
+                    <td><label >{{profilg.nama}}</label></td>
+                    <td><label >{{profilg.alamat_lokasi}}</label></td>
+                    <td><label >{{profilg.lintang}} <sup>o</sup>{{profilg.posisi_lintang}}</label></td>
+                    <td><label >{{profilg.bujur}} <sup>o</sup> {{profilg.posisi_bujur}} </label></td>
+                    <td>
+                         <form method="post" action="#">
+                             {% csrf_token %}
+                             <a href="{% url 'bebankalor:viewprofil' profilg.id %}" class="btn btn-sm btn-outline-success">Set Profil</a>
+                             <a href="{% url 'bebankalor:updateprofil' profilg.id %}" class="btn btn-sm btn-outline-success">Edit</a>
+                             <a href="{% url 'bebankalor:deleteprofil' profilg.id %}" class="btn btn-sm btn-outline-warning">Delete</a>
+                        </form>
+                    </td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+</div>
+</div>
+{% endblock content %}

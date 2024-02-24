@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block subcontent %}
+
+<div class="col-12 mt-5" xmlns="http://www.w3.org/1999/html">
+     <div class="alert alert-primary" role="alert">
+               Profil Gedung: {{nama}}
+    </div>
+</div>
+<div class="col-12 mt-5">
+    <div class="alert alert-primary" role="alert">
+      Kategori Dinding {{ pesan }}
+    </div>
+</div>
+{% if form_dinding %}
+<form  class= "col-12 mt-5" xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+    <div class="form-group row">
+       <label class="col-md-2  col-form-label-sm">Gedung</label>
+        <div class="col-md-4">
+        {{form_dinding.gedung}}
+     </div>
+        <label class="col-md-2 col-form-label">Level Lantai</label>
+         <div class="col-md-4">
+            {{form_dinding.level_lantai}}
+         </div>
+        </div>
+    <div class="form-group row">
+    <label class="col-md-2 col-form-label">Kategori Lapisan</label>
+         <div class="col-md-4">
+            {{form_dinding.kategori}}
+         </div>
+
+      <label class="col-md-2 col-form-label">Nama Ruang</label>
+      <div class="col-md-4">
+           {{form_dinding.nama_ruang}}
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label-sm">Sisi</label>
+      <div class="col-md-4">
+           {{form_dinding.sisi}}
+      </div>
+    <label class="col-md-2 col-form-label-sm">Dimensi Luas</label>
+      <div class="col-md-4">
+    {{form_dinding.dim_luas}}
+    </div>
+    </div>
+
+    <div class="form-group row">
+    <label class="col-md-2 col-form-label-sm">Dimensi Tebal</label>
+         <div class="col-md-4">
+    {{form_dinding.dim_tebal}}
+  </div>
+        <label class="col-md-3 col-form-label-sm">Kategori Material</label>
+          <div class="col-md-3">
+    {{form_dinding.material}}
+  </div>
+    </div>
+
+
+     <div class="form-group row">
+    <label class="col-md-3 col-form-label">Kategori Dinding </label>
+          <div class="col-md-3">
+         <select id="kategoriDinding"  name= 'partisi' onchange="getData()" >
+             {% for item in kat_partisi %}
+                <option value="{{item.0}}"
+                {% if item.0 == dinding.partisi  %} selected="selected"{% endif %}>
+                {{item.1}}
+                </option>
+                {% endfor %}
+        </select>
+  </div>
+         </div>
+
+
+      <div class=" col-12 mt-5 dinding" id = "dinding_nonpartisi" >
+        <div class="alert alert-secondary" role="alert">
+          Propertis Dinding Bukan Partisi
+        </div>
+
+        <div class="form-group row">
+        <label class="col-md-2 col-form-label-sm">Arah Matahari</label>
+          <div class="col-md-4">
+               {{form_dinding.arah}}
+          </div>
+        </div>
+
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label-sm">Awal Kontak dengan Matahari</label>
+        <div class="col-md-4">
+            {{form_dinding.awal_kontak_matahari}}
+        </div>
+
+        <label class="col-md-2 col-form-label-sm">Akhir Kontak dengan Matahari</label>
+        <div class="col-md-4">
+          {{form_dinding.akhir_kontak_matahari}}
+        </div>
+    </div>
+</div>
+
+      <div class="col-12 mt-5  dinding" id = "dinding_partisi" >
+
+            <div class=" col-12 mt-5 alert alert-secondary" role="alert">
+             Propertis Dinding Partisi
+     </div>
+     <div class="form-group row">
+    <label class="col-md-3 col-form-label-sm">Rerata Temp Ruang Berdekatan</label>
+          <div class="col-md-3">
+             {{form_dinding.temp_rerata_ruang_berdekatan}}
+    </div>
+
+
+     </div>
+      </div>
+
+         <br>
+        {% if edited %}
+        <div class="col-md-2 form-select">
+              <button type="submit" name="add_dinding_btn">{% if add_bl %} Tambah {% else %} Edit {% endif %} </button>
+         </div>
+        {% endif%}
+
+</form>
+{% endif %}
+    <br>
+        <table class="table table-bordered" id="coalTbl">
+            <thead>
+                <tr >
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Sisi</th>
+                    <th scope="col">luas</th>
+                    <th scope="col">tebal</th>
+                    <th scope="col">material</th>
+                    <th scope="col">aksi</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for dinding in dindings %}
+                <tr class = "record">
+
+                    <td><label >{{dinding.gedung}}</label></td>
+                    <td><label >{{dinding.level_lantai}}</label></td>
+                    <td><label >{{dinding.sisi}}</label></td>
+                    <td><label >{{dinding.dim_luas}}</label></td>
+                    <td><label >{{dinding.dim_tebal}}</label></td>
+                    <td><label >{{dinding.material}}</label></td>
+                     <td>
+                         <form method="post" action="#">
+                             {% csrf_token %}
+                             <a href="{% url 'bebankalor:viewdinding' dinding.id %}" class="btn btn-outline-success" >View</a>
+                             <a href="{% url 'bebankalor:updatedinding' dinding.id %}" class="btn btn-outline-success">Edit</a>
+                             <a href="{% url 'bebankalor:deletedinding' dinding.id %}" class="btn btn-outline-warning">Delete</a>
+                        </form>
+                     </td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+<br>
+
+ {% endblock subcontent %}
+
+{% block javascript %}
+  <!-- Default content for the JavaScript block -->
+<script type = "text/javascript" src ="{% static 'js/kategori.js' %}"></script>
+  {% endblock %}

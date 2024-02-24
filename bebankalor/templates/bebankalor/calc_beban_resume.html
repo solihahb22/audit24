@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block content %}
+
+
+
+<div class ="container">
+<div class="col-12 mt-5">
+    <div class="alert alert-primary" role="alert">
+      Pilih Gedung dan Lantai
+    </div>
+
+
+{% if form %}
+<form class= "col-12 mt-5" xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+     <div class="form-group row">
+        <label class="col-md-2 col-form-label">Gedung</label>
+         <div class="col-md-3">
+        {{form.gedung}}
+       </div>
+     </div>
+
+    <div class="form-group row">
+       <label class="col-md-2 col-form-label">Level Lantai</label>
+        <div class="col-md-3">
+         {{form.lantai}}
+        </div>
+        <div class="col-md-2 form-select">
+              <button type="submit" name="search_profil_btn">Cari</button>
+         </div>
+    </div>
+
+
+</form>
+{% endif %}
+
+    <div class="alert alert-primary" role="alert">
+      <h3>{{pesan}}</h3>
+    </div>
+
+    <div class="alert alert-primary" role="alert">
+      Resume Beban Kalor Luar
+    </div>
+    <table class="table table-bordered" id="qslrsTbl">
+       <thead>
+                <tr >
+                    <th scope="col">Waktu</th>
+                    <th scope="col">Q NonPartisi</th>
+                    <th scope="col">Q Konduksi Kaca</th>
+                    <th scope="col">Q Radiasi Kaca</th>
+                    <th scope="col">Q Partisi</th>
+                    <th scope="col">Q Total</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for slr in slrs %}
+                <tr class = "record">
+                    <td><label >{{slr.waktu}}</label></td>
+                    <td><label >{{slr.q_d|floatformat:3}}</label></td>
+                    <td><label >{{slr.q_k|floatformat:3}}</label></td>
+                     <td><label >{{slr.q_r|floatformat:3}}</label></td>
+                    <td><label >{{slr.q_partisi|floatformat:3}}</label></td>
+                    <td><label >{{slr.total|floatformat:3}}</label></td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+
+
+    <div class="alert alert-primary" role="alert">
+      Beban Kalor Dalam:
+    </div>
+
+     <table class="table table-bordered" id="qdrTbl">
+       <thead>
+                <tr >
+                    <th scope="col">Media</th>
+                    <th scope="col">Beban Kalor Sensible (watt)</th>
+                    <th scope="col">Beban Kalor Laten (watt)</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for bk in bk_dr %}
+                <tr class = "record">
+                    <td><label >{{bk.kategori}}</label></td>
+                    <td><label >{{bk.q_sp|floatformat:3}}</label></td>
+                    <td><label >{{bk.q_lt|floatformat:3}}</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+    <div class="alert alert-light" role="alert">
+   </div>
+    <div class="alert alert-primary" role="alert">
+      Beban Kalor Infiltrasi dan Ventilasi
+    </div>
+
+         <table class="table table-bordered" id="invTbl">
+       <thead>
+                <tr >
+                    <th scope="col">Media</th>
+                    <th scope="col">Beban Kalor Sensible (watt)</th>
+                    <th scope="col">Beban Kalor Laten (watt)</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for bk in bk_inven %}
+                <tr class = "record">
+                    <td><label >{{bk.media}}</label></td>
+                    <td><label >{{bk.q_sen|floatformat:3}}</label></td>
+                    <td><label >{{bk.q_laten|floatformat:3}}</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+    <div class="alert alert-primary" role="alert">
+      Effective Room Sensible Heat (ERSH)
+    </div>
+
+
+{% if  ersh %}
+
+
+    <div class="row">
+    <div class="col-4">
+      Beban kalor sensibel luar ruangan
+    </div>
+    <div class="col">
+     : {{ersh.bk_slr|floatformat:2 }} Watt
+    </div>
+
+  </div>
+    <div class="row">
+    <div class="col-4">
+      Beban kalor sensibel dalam ruangan
+    </div>
+    <div class="col">
+      : {{ersh.bk_sdr|floatformat:2 }} Watt
+    </div>
+
+  </div>
+    <div class="row">
+    <div class="col-4">
+      Beban kalor sensibel infiltrasi dan ventilasi
+    </div>
+    <div class="col">
+     : {{ersh.bk_siv|floatformat:2 }} Watt
+    </div>
+
+  </div>
+    <div class="row">
+        <div class="col-6">
+        --------------------------------------------------------------------- +
+        </div>
+    </div>
+        <div class="row">
+    <div class="col-4">
+      Total
+    </div>
+    <div class="col">
+     : {{ersh.total|floatformat:2 }} Watt
+    </div>
+        </div>
+
+
+    <div class="row">
+    <div class="col-4">
+      Safety Factor 5%
+    </div>
+    <div class="col">
+     : {{ersh.safety|floatformat:2 }} Watt
+    </div>
+        </div>
+    <div class="row">
+        <div class="col-6">
+        --------------------------------------------------------------------- +
+        </div>
+    </div>
+        <div class="row">
+    <div class="col-4">
+      Effective Room Sensible Heat
+    </div>
+    <div class="col">
+     : {{ersh.value|floatformat:2 }} Watt
+    </div>
+        </div>
+
+
+        {% endif%}
+
+
+
+    <div class="alert alert-primary" role="alert">
+      Effective Room Latent Heat (ERLH)
+    </div>
+
+
+{% if  erlh %}
+
+    <div class="row">
+    <div class="col-4">
+      Beban kalor laten dalam ruangan
+    </div>
+    <div class="col">
+      : {{erlh.bk_ldr|floatformat:2 }} Watt
+    </div>
+
+  </div>
+    <div class="row">
+    <div class="col-4">
+      Beban kalor laten infiltrasi dan ventilasi
+    </div>
+    <div class="col">
+     : {{erlh.bk_liv|floatformat:2 }} Watt
+    </div>
+
+  </div>
+    <div class="row">
+        <div class="col-6">
+        --------------------------------------------------------------------- +
+        </div>
+    </div>
+        <div class="row">
+    <div class="col-4">
+      Total
+    </div>
+    <div class="col">
+     : {{erlh.total|floatformat:2 }} Watt
+    </div>
+        </div>
+
+
+    <div class="row">
+    <div class="col-4">
+      Safety Factor 5%
+    </div>
+    <div class="col">
+     : {{erlh.safety|floatformat:2 }} Watt
+    </div>
+        </div>
+    <div class="row">
+        <div class="col-6">
+        --------------------------------------------------------------------- +
+        </div>
+    </div>
+        <div class="row">
+    <div class="col-4">
+      Effective Room Latent Heat
+    </div>
+    <div class="col">
+     : {{erlh.value|floatformat:2 }} Watt
+    </div>
+        </div>
+
+
+        {% endif%}
+
+
+    </div>
+</div>
+{% endblock content %}

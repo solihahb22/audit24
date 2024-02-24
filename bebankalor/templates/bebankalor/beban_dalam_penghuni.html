@@ -1,0 +1,135 @@
+00{% extends "base.html" %}
+
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block content %}
+
+<div container>
+<div class="col-12" xmlns="http://www.w3.org/1999/html">
+    <div class="alert alert-primary" role="alert">
+      <h3>{{pesan}}</h3>
+    </div>
+  </div>
+
+
+<div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      Beban Penghuni
+    </div>
+  </div>
+{% if form_penghuni %}
+<form class= "col-12 mt-5" xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+
+ <div class="form-group row">
+    <label class="col-md-2 col-form-label">Gedung</label>
+    <div class="col-md-3">
+     {{form_penghuni.gedung}}
+    </div>
+ </div>
+
+
+    <div class="form-group row">
+
+        <label class="col-md-2 col-form-label">Nama Ruang</label>
+        <div class="col-md-3">
+            {{form_penghuni.nama_ruang}}
+        </div>
+        <label class="col-md-3 col-form-label">Level Lantai</label>
+        <div class="col-md-3">
+            {{form_penghuni.level_lantai}}
+        </div>
+
+
+
+
+  </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">State Penghuni</label>
+        <div class="col-sm-3">
+            {{form_penghuni.state}}
+        </div>
+        <label class="col-md-3 col-form-label">Jumlah Penghuni</label>
+        <div class="col-md-3">
+            {{form_penghuni.jumlah_penghuni}}
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Aktivitas Penghuni </label>
+        <div class="col-md-3">
+            {{form_penghuni.aktivitas}}
+        </div>
+
+        <label class="col-md-3 col-form-label">Lama Aktivitas (Jam)</label>
+        <div class="col-md-3">
+            {{form_penghuni.lama_aktivitas}}
+        </div>
+        <label class="col-md-2 col-form-label">Total Aktivitas (Jam)</label>
+        <div class="col-md-3">
+            {{form_penghuni.total_aktivitas}}
+         </div>
+    </div>
+
+    <div class="col-12">
+      <div class="alert alert-light" role="alert">
+  </div>
+
+        <div class="col-md-2 form-select">
+
+              <button type="submit" name="add_penghuni_btn">Tambah</button>
+
+            <br>
+
+         </div>
+  </div>
+
+</form>
+{% endif %}
+
+<table class="table table-bordered" >
+            <thead>
+                <tr >
+                     <!--th scope="col">ID Beban Penghuni</th-->
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Aktivitas</th>
+                    <th scope="col">Jumlah Penghuni</th>
+                    <th scope="col">Lama Aktivitas</th>
+                    <th scope="col">Total Aktivitas</th>
+                    <th scope="col">aksi</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% if penghuni %}
+                <tr class = "record">
+
+                    <!--th scope="row" >{{penghuni.id}}</th-->
+                    <td><label >{{penghuni.gedung}}</label></td>
+                    <td><label >{{penghuni.level_lantai}}</label></td>
+                    <td><label >{{penghuni.aktivitas}}</label></td>
+                    <td><label >{{penghuni.jumlah_penghuni}}</label></td>
+                    <td><label >{{penghuni.lama_aktivitas}}</label></td>
+                    <td><label >{{penghuni.total_aktivitas}}</label></td>
+                     <td>
+                          <form method="post" action="#">
+                             {% csrf_token %}
+                             <a href="{% url 'bebankalor:updatepenghuni' penghuni.id %}" class="btn btn-outline-success">Edit</a>
+                             <a href="{% url 'bebankalor:deletepenghuni' penghuni.id %}" class="btn btn-outline-warning">Delete</a>
+                        </form>
+                     </td>
+                </tr>
+                {% endif %}
+
+            </tbody>
+        </table>
+<br>
+
+
+</div>
+{% endblock content %}

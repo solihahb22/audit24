@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block subcontent %}
+<div class="col-12 mt-5" xmlns="http://www.w3.org/1999/html">
+     <div class="alert alert-primary" role="alert">
+               Profil Gedung: {{nama}}
+    </div>
+</div>
+
+<div class="col-12" xmlns="http://www.w3.org/1999/html">
+    <div class="alert alert-primary" role="alert">
+      Kategori Beton
+    </div>
+  </div>
+{% if form_beton %}
+<form class="col-12 mt-5" xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+    <div class="form-group row">
+       <label class="col-md-2 col-form-label">Gedung</label>
+        <div class="col-md-3">
+        {{form_beton.gedung}}
+     </div>
+    </div>
+
+
+    <div class="form-group row">
+         <label class="col-md-2 col-form-label">Level Lantai</label>
+         <div class="col-md-4">
+            {{form_beton.level_lantai}}
+         </div>
+      <label class="col-md-2 col-form-label">Nama Ruang</label>
+      <div class="col-md-4">
+           {{form_beton.nama_ruang}}
+      </div>
+
+
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Sisi</label>
+      <div class="col-md-4">
+           {{form_beton.sisi}}
+      </div>
+    <label class="col-md-2 col-form-label">Dimensi Luas</label>
+      <div class="col-md-4">
+    {{form_beton.dim_luas}}
+    </div>
+
+
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Dimensi Tebal</label>
+         <div class="col-md-4">
+    {{form_beton.dim_tebal}}
+  </div>
+    <label class="col-md-2 col-form-label">Kategori Material</label>
+          <div class="col-md-4">
+    {{form_beton.material}}
+  </div>
+        </div>
+    <div class="form-group row">
+    <label class="col-md-2 col-form-label">Kategori Partisi</label>
+          <div class="col-md-4">
+    <select id="kategoriBeton" name="partisi" onchange="getDataKategoriBeton()">
+             {% for item in kat_partisi %}
+                <option value="{{item.0}}"
+                {% if item.0 == beton.partisi  %} selected="selected"{% endif %}>
+                {{item.1}}
+                </option>
+                {% endfor %}
+        </select>
+  </div>
+     </div>
+    </div>
+    <div class="col-12 mt-5 kaca beton" id = "beton_nonpartisi" >
+     <div class="alert alert-secondary" role="alert">
+          Jika Terkena Sinar Matahari
+  </div>
+        <div class="form-group row">
+        <label class="col-md-2 col-form-label-sm">Arah Matahari</label>
+      <div class="col-md-4">
+           {{form_beton.arah}}
+      </div>
+        </div>
+
+
+    <div class="form-group row">
+    <label class="col-md-2 col-form-label-sm">Awal Kontak dengan Matahari</label>
+        <div class="col-md-4">
+    {{form_beton.awal_kontak_matahari}}
+  </div>
+
+      <label class="col-md-2 col-form-label-sm">Akhir Kontak dengan Matahari</label>
+        <div class="col-md-4">
+          {{form_beton.akhir_kontak_matahari}}
+        </div>
+
+    </div>
+    </div>
+    <div class="col-12 mt-5 beton" id = "beton_partisi" >
+        <div class="alert alert-secondary" role="alert">
+             Jika Beton Partisi
+      </div>
+
+     <div class="form-group row">
+    <label class="col-md-3 col-form-label-sm">Rerata Temp Ruang Berdekatan</label>
+          <div class="col-md-3">
+             {{form_beton.temp_rerata_ruang_berdekatan}}
+    </div>
+
+
+     </div>
+    </div>
+         <br>
+        {% if edited %}
+        <div class="col-md-2 form-select">
+              <button type="submit" name="add_beton_btn">{% if add_bl %} Tambah {% else %} Edit {% endif %}</button>
+         </div>
+        {% endif %}
+
+</form>
+{% endif %}
+{% if form_beton.errors %}
+    {% for field in form_beton %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ field.label }}</strong><span>{{ error|escape }}</span>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form_beton.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
+
+
+        <table class="table table-bordered" id="betonTbl">
+            <thead>
+                <tr >
+
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Sisi</th>
+                    <th scope="col">luas</th>
+                    <th scope="col">tebal</th>
+                    <th scope="col">material</th>
+                    <th scope="col">aksi</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for beton in betons %}
+                <tr class = "record">
+                    <td><label >{{beton.gedung}}</label></td>
+                    <td><label >{{beton.level_lantai}}</label></td>
+                    <td><label >{{beton.sisi}}</label></td>
+                    <td><label >{{beton.dim_luas}}</label></td>
+                    <td><label >{{beton.dim_tebal}}</label></td>
+                    <td><label >{{beton.material}}</label></td>
+                    <td>
+                         <form method="post" action="#">
+                             {% csrf_token %}
+                             <a href="{% url 'bebankalor:viewbeton' beton.id %}" class="btn btn-outline-success">View</a>
+                             <a href="{% url 'bebankalor:updatebeton' beton.id %}" class="btn btn-outline-success">Edit</a>
+                             <a href="{% url 'bebankalor:deletebeton' beton.id %}" class="btn btn-outline-warning">Delete</a>
+                        </form>
+                     </td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+<br>
+
+
+ {% endblock subcontent %}
+{% block javascript %}
+  <!-- Default content for the JavaScript block -->
+<script type = "text/javascript" src ="{% static 'js/kategoribeton.js' %}"></script>
+  {% endblock %}

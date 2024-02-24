@@ -1,0 +1,313 @@
+00{% extends "base.html" %}
+
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block content %}
+
+<div container>
+<div class="col-12" xmlns="http://www.w3.org/1999/html">
+    <div class="alert alert-primary" role="alert">
+      <h3>{{pesan}}</h3>
+    </div>
+  </div>
+
+
+<div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      Beban Penghuni
+    </div>
+  </div>
+{% if form_penghuni %}
+<form xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+
+ <div class="form-group row">
+    <label class="col-md-3 col-form-label">Gedung</label>
+    <div class="col-md-3">
+     {{form_penghuni.gedung}}
+    </div>
+
+
+ </div>
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label">Level Lantai</label>
+        <div class="col-md-3">
+            {{form_penghuni.level_lantai}}
+        </div>
+        <label class="col-md-3 col-form-label">Nama Ruang</label>
+        <div class="col-md-3">
+            {{form_penghuni.nama_ruang}}
+        </div>
+
+
+
+
+  </div>
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label">Jumlah Penghuni</label>
+        <div class="col-md-3">
+            {{form_penghuni.jumlah_penghuni}}
+        </div>
+        <label class="col-md-3 col-form-label">Aktivitas Penghuni</label>
+        <div class="col-md-3">
+            {{form_penghuni.aktivitas}}
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label">Lama Aktivitas</label>
+        <div class="col-md-3">
+            {{form_penghuni.lama_aktivitas}}
+        </div>
+        <label class="col-md-3 col-form-label">Total Aktivitas</label>
+        <div class="col-md-3">
+            {{form_penghuni.total_aktivitas}}
+         </div>
+    </div>
+
+    <div class="col-12">
+      <div class="alert alert-light" role="alert">
+  </div>
+
+        <div class="col-md-2 form-select">
+            {% if firstadd %}
+              <button type="submit" name="add_penghuni_btn">Tambah</button>
+             {% endif %}
+            <br>
+
+         </div>
+  </div>
+
+</form>
+{% endif %}
+
+<table class="table table-bordered" >
+            <thead>
+                <tr >
+                     <th scope="col">ID Beban Penghuni</th>
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Aktivitas</th>
+                    <th scope="col">Jumlah Penghuni</th>
+                    <th scope="col">Lama Aktivitas</th>
+                    <th scope="col">Total Aktivitas</th>
+                    <th scope="col">aksi</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% if penghuni %}
+                <tr class = "record">
+
+                    <th scope="row" >{{penghuni.id}}</th>
+                    <td><label >{{penghuni.gedung}}</label></td>
+                    <td><label >{{penghuni.level_lantai}}</label></td>
+                    <td><label >{{penghuni.aktivitas}}</label></td>
+                    <td><label >{{penghuni.jumlah_penghuni}}</label></td>
+                    <td><label >{{penghuni.lama_aktivitas}}</label></td>
+                    <td><label >{{penghuni.total_aktivitas}}</label></td>
+                     <td><label >update <br> delete</label></td>
+                </tr>
+                {% endif %}
+
+            </tbody>
+        </table>
+<br>
+
+<div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      Beban Pencahayaan
+    </div>
+  </div>
+{% if form_cahaya %}
+<form  xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label">Gedung</label>
+        <div class="col-md-3">
+            {{form_cahaya.gedung}}
+        </div>
+
+
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label">Nama Ruang</label>
+        <div class="col-md-3">
+           {{form_cahaya.nama_ruang}}
+        </div>
+
+        <label class="col-md-3 col-form-label">Level Lantai</label>
+        <div class="col-md-3">
+            {{form_cahaya.level_lantai}}
+        </div>
+
+    </div>
+    <div class="form-group row">
+    <label class="col-md-3 col-form-label">Warna Cat Dinding</label>
+        <div class="col-md-3">
+            {{form_cahaya.warna_cat}}
+        </div>
+        <label class="col-md-3 col-form-label">Jenis Lampu</label>
+        <div class="col-md-3">
+            {{form_cahaya.jenis_lampu}}
+        </div>
+    </div>
+    <div class="form-group row">
+
+        <label class="col-md-3 col-form-label">Jumlah Lampu</label>
+        <div class="col-md-3">
+            {{form_cahaya.jumlah_lampu}}
+        </div>
+
+
+    </div>
+
+        <div class="col-md-2 form-select">
+              <button type="submit" name="add_cahaya_btn">Tambah</button>
+         </div>
+
+</form>
+{% endif %}
+<table class="table table-bordered" >
+            <thead>
+                <tr >
+                     <th scope="col">ID </th>
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Jenis Lampu (watt)</th>
+                    <th scope="col">Jumlah Lampu</th>
+                    <th scope="col">Warna Cat</th>
+                    <th scope="col">Aksi</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for cahaya in cahayas %}
+                <tr class = "record">
+
+                    <th scope="row" >{{cahaya.id}}</th>
+                    <td><label >{{cahaya.gedung}}</label></td>
+                    <td><label >{{cahaya.level_lantai}}</label></td>
+                    <td><label >{{cahaya.jenis_lampu}}</label></td>
+                    <td><label >{{cahaya.jumlah_lampu}}</label></td>
+                    <td><label >{{cahaya.warna_cat}}</label></td>
+                    <td><label >edit <br> delete</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+<br>
+
+<div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      Beban Peralatan
+    </div>
+  </div>
+{% if form_alat %}
+<form xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label">Gedung</label>
+        <div class="col-md-3">
+            {{form_alat.gedung}}
+        </div>
+
+
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label">Level Lantai</label>
+        <div class="col-md-3">
+            {{form_alat.level_lantai}}
+        </div>
+        <label class="col-md-3 col-form-label">Nama Ruang</label>
+        <div class="col-md-3">
+           {{form_alat.nama_ruang}}
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label">Jenis/Nama Alat</label>
+        <div class="col-md-3">
+            {{form_alat.jenis_alat}}
+        </div>
+        <label class="col-md-3 col-form-label">Beban (watt)</label>
+        <div class="col-md-3">
+           {{form_alat.beban}}
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label">Jumlah</label>
+        <div class="col-md-3">
+            {{form_alat.jumlah}}
+        </div>
+        <label class="col-md-3 col-form-label">Lama Pemakaian</label>
+      <div class="col-md-3">
+           {{form_alat.lama_penggunaan}}
+      </div>
+    </div>
+
+
+
+
+        <div class="col-md-2 form-select">
+            <br>
+              <button type="submit" name="add_alat_btn">Tambah</button>
+         </div>
+
+
+</form>
+{% endif %}
+
+   <table class="table table-bordered" >
+            <thead>
+                <tr >
+                     <th scope="col">ID </th>
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Ruang</th>
+                    <th scope="col">Jenis/Nama Alat</th>
+                    <th scope="col">Beban(watt)</th>
+                    <th scope="col">Jumlah(unit)</th>
+                    <th scope="col">Lama Pemakaian</th>
+                    <th scope="col">Aksi</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for alat in alats %}
+                <tr class = "record">
+
+                    <th scope="row" >{{alat.id}}</th>
+                    <td><label >{{alat.gedung}}</label></td>
+                    <td><label >{{alat.level_lantai}}</label></td>
+                    <td><label >{{alat.nama_ruang}}</label></td>
+                    <td><label >{{alat.jenis_alat}}</label></td>
+                    <td><label >{{alat.beban}}</label></td>
+                    <td><label >{{alat.jumlah}}</label></td>
+                    <td><label >{{alat.lama_penggunaan}}</label></td>
+                    <td><label >edit <br> delete</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+</div>
+{% endblock content %}

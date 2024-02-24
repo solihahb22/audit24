@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block content %}
+
+
+
+<div class ="container">
+<div class="col-12">
+    <div class="alert alert-primary" role="alert">
+        {{pesan}}
+    </div>
+  </div>
+
+{% if form %}
+<form xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+     <div class="form-group row">
+        <label class="col-md-2 col-form-label">Gedung</label>
+         <div class="col-md-3">
+        {{form.gedung}}
+       </div>
+     </div>
+
+    <div class="form-group row">
+       <label class="col-md-2 col-form-label">Level Lantai</label>
+        <div class="col-md-3">
+         {{form.lantai}}
+        </div>
+        <div class="col-md-2 form-select">
+              <button type="submit" name="calc_inv_btn">Cari</button>
+         </div>
+    </div>
+
+
+
+
+</form>
+{% endif %}
+
+
+<div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      Daftar Ruang (Untuk saat ini dibatasi satu ruang untuk satu lantai)
+    </div>
+     {% if profil %}
+    <table class="table  table-sm">
+
+        <tbody>
+         <tr class="table-active">
+              <th scope="row">Nama</th>
+              <td>{{profil.nama}}</td>
+
+         </tr>
+         <tr>
+              <th scope="row">Alamat</th>
+              <td>{{profil.alamat_lokasi}} {{profil.lintang}} {{profil.posisi_lintang}}, {{profil.bujur}} {{profil.posisi_bujur}}</td>
+         </tr>
+        <tr class="table-active">
+              <th scope="row">Dimensi</th>
+              <td></td>
+         </tr>
+        <tr>
+              <th scope="row">Panjang</th>
+              <td>{{profil.dim_panjang}}</td>
+         </tr>
+        <tr class="table-active">
+              <th scope="row">Lebar</th>
+              <td>{{profil.dim_lebar}}</td>
+         </tr>
+        <tr>
+              <th scope="row">Tinggi</th>
+              <td>{{profil.dim_tinggi}}</td>
+         </tr>
+
+        <tr class="table-active">
+              <th scope="row">Temperatur</th>
+              <td></td>
+         </tr>
+        <tr >
+              <th scope="row">Temperatur Rata-Rata Harian</th>
+              <td>     {{profil.temperatur_rh}}</td>
+         </tr>
+        <tr class="table-active">
+              <th scope="row">Temperatur yang akan dicapai</th>
+              <td>     {{profil.temperatur_obj}}</td>
+         </tr>
+        </tbody>
+    </table>
+
+    {% endif %}
+
+  </div>
+
+<div class="col-12">
+    <div class="alert alert-light" role="alert">
+   </div>
+    <div class="alert alert-primary" role="alert">
+      Beban Kalor Infiltrasi dan Ventilasi
+    </div>
+
+
+    {% if q_inv_vent %}
+    <div class="row">
+    <div class="col-3">
+      Beban Kalor Sensible Infiltrasi
+    </div>
+    <div class="col">
+      : {{q_inv_vent.q_sensibel_inf|floatformat:2 }} Watt
+    </div>
+
+  </div>
+    <div class="row">
+    <div class="col-3">
+      Beban Kalor Laten Infiltrasi
+    </div>
+    <div class="col">
+     : {{q_inv_vent.q_laten_inf|floatformat:2 }} Watt
+    </div>
+
+  </div>
+    <div class="row">
+    <div class="col-3">
+      Beban Kalor Sensible Ventilasi
+    </div>
+    <div class="col">
+      : {{q_inv_vent.q_sensibel_vent|floatformat:2 }} Watt
+    </div>
+
+  </div>
+    <div class="row">
+    <div class="col-3">
+      Beban Kalor Laten Infiltrasi
+    </div>
+    <div class="col">
+     : {{q_inv_vent.q_laten_vent|floatformat:2 }} Watt
+    </div>
+
+  </div>
+    {% endif%}
+  </div>
+</div>
+{% endblock content %}

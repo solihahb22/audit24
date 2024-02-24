@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block content %}
+  <form class="row g-3" method="post">
+  {% csrf_token %}
+  <div class="col-12">
+    <div class="alert alert-light" role="alert">
+    </div>
+    </div>
+    <div class="col-12">
+    <label class="form-label">Nama Gedung</label>
+    {{form.nama}}
+    </div>
+  <div class="col-12">
+    <div class="alert alert-light" role="alert">
+   </div>
+    <div class="alert alert-primary" role="alert">
+      Lokasi
+    </div>
+  </div>
+     <div class="col-12">
+    <label for="alamat" class="form-label">Alamat</label>
+    {{form.alamat_lokasi}}
+     </div>
+
+  <div class="col-12">
+  <div class="alert alert-light" role="alert">
+
+  </div>
+    <div class="alert alert-primary" role="alert">
+      Dimensi
+    </div>
+  </div>
+  <div class="col-md-4">
+    <label for="panjang_dim" class="form-label">Panjang</label>
+    <input type="text" class="form-control" id="panjang_dim" value={{form.dim_panjang}}>
+  </div>
+  <div class="col-md-4">
+    <label for="lebar_dim" class="form-label">Lebar</label>
+    <input type="text" class="form-control" id="lebar_dim" value={{form.dim_lebar}}>
+  </div>
+    <div class="col-md-4">
+    <label for="tinggi_dim" class="form-label">Tinggi</label>
+    <input type="text" class="form-control" id="tinggi_dim" value={{form.dim_tinggi}}>
+  </div>
+
+<div class="col-12">
+  <div class="alert alert-light" role="alert">
+
+</div>
+    <div class="alert alert-primary" role="alert">
+      Kolom (pengurang dimensi dinding/lantai)
+    </div>
+  </div>
+  <div class="col-md-4">
+    <label for="panjang_kolom" class="form-label">Panjang</label>
+    <input type="text" class="form-control" id="panjang_kolom" value={{form.kolom_panjang}} >
+  </div>
+  <div class="col-md-4">
+    <label for="lebar_kolom" class="form-label">Lebar</label>
+    <input type="text" class="form-control" id="lebar_kolom" value={{form.kolom_lebar}}>
+  </div>
+    <div class="col-md-4">
+    <label for="jumlah_kolom" class="form-label">Jumlah</label>
+    <input type="text" class="form-control" id="jumlah_kolom" value={{form.kolom_jumlah}}>
+  </div>
+<div class="col-12">
+  <div class="alert alert-light" role="alert">
+
+</div>
+    <div class="alert alert-primary" role="alert">
+          Temperatur
+    </div>
+  </div>
+  <div class="col-md-4">
+    <label for="temp_rerata" class="form-label">Temperatur Rata-Rata Harian (derajat Celcius)</label>
+    <input type="text" class="form-control" id="temp_rerata" value={{form.temperatur_rh}}>
+  </div>
+  <div class="col-md-4">
+    <label for="temp_obj" class="form-label">Temperatur Tujuan</label>
+    <input type="text" class="form-control" id="temp_obj" value={{form.temperatur_obj}}>
+  </div>
+
+  <div class="col-12">
+    <div class="alert alert-light" role="alert">
+
+</div>
+    <a href= "{% url 'bebankalor:setbebanluar' %}" class="btn btn-primary"> Simpan </a>
+  </div>
+    </div>
+</form>
+
+{% endblock content %}

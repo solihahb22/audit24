@@ -1,0 +1,118 @@
+00{% extends "base.html" %}
+
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block content %}
+<div class="col-12" xmlns="http://www.w3.org/1999/html">
+    <div class="alert alert-primary" role="alert">
+      <h3>{{pesan}}</h3>
+    </div>
+  </div>
+  {% if form_inv %}
+<form class="col-10 mt-5" xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+
+ <div class="form-group row">
+    <label class="col-md-2 col-form-label">Gedung</label>
+    <div class="col-md-3">
+     {{form_inv.gedung}}
+    </div>
+
+ </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Level Lantai</label>
+        <div class="col-md-3">
+            {{form_inv.level_lantai}}
+        </div>
+
+        <label class="col-md-3 col-form-label">Nama Ruang</label>
+        <div class="col-md-3">
+            {{form_inv.nama_ruang}}
+        </div>
+
+  </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Jumlah Stop Kontak</label>
+        <div class="col-md-3">
+            {{form_inv.jumlah_stop_kontak}}
+        </div>
+        <label class="col-md-3 col-form-label">Kecepatan Angin Luar</label>
+        <div class="col-md-3">
+            {{form_inv.kec_angin_luar}}
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+         <label class="col-md-2 col-form-label">Kelas Shielding</label>
+        <div class="col-md-3">
+            {{form_inv.kelas_shielding}}
+        </div>
+
+        <label class="col-md-3 col-form-label">Jenis Ceiling</label>
+        <div class="col-md-3">
+            {{form_inv.jenis_ceiling}}
+        </div>
+
+    </div>
+
+    <div class="col-12">
+      <div class="alert alert-light" role="alert">
+  </div>
+
+        <div class="col-md-2 form-select">
+
+              <button type="submit" name="add_inv_btn">Tambah</button>
+
+            <br>
+
+         </div>
+  </div>
+
+</form>
+{% endif %}
+
+<table class="table table-bordered" >
+            <thead>
+                <tr >
+                     <!--th scope="col">ID Beban Inviltrasi</th-->
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Nama Ruang</th>
+                    <th scope="col">Jumlah Stop Kontak</th>
+                    <th scope="col">Kecepatan Angin Luar</th>
+                    <th scope="col">Kelas Shielding</th>
+                    <th scope="col">Jenis Ceiling</th>
+                    <th scope="col">aksi</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% if beban_inv %}
+                <tr class = "record">
+
+                    <!--th scope="row" >{{beban_inv.id}}</th-->
+                    <td><label >{{beban_inv.gedung}}</label></td>
+                    <td><label >{{beban_inv.level_lantai}}</label></td>
+                    <td><label >{{beban_inv.nama_ruang}}</label></td>
+                    <td><label >{{beban_inv.jumlah_stop_kontak}}</label></td>
+                    <td><label >{{beban_inv.kec_angin_luar}}</label></td>
+                    <td><label >{{beban_inv.kelas_shielding}}</label></td>
+                    <td><label >{{beban__inv.jenis_ceiling}}</label></td>
+                     <td>
+                         <form method="post" action="#">
+                             {% csrf_token %}
+                             <a href="{% url 'bebankalor:updateinfvent' beban_inv.id %}" class="btn btn-outline-success">Edit</a>
+                             <a href="{% url 'bebankalor:deleteinfvent' beban_inv.id %}" class="btn btn-outline-warning">Delete</a>
+                        </form>
+                     </td>
+                </tr>
+                {% endif %}
+
+            </tbody>
+        </table>
+
+{% endblock content %}

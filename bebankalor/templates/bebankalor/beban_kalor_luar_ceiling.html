@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block subcontent %}
+
+
+<div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      Kategori Ceiling
+    </div>
+  </div>
+{% if form_ceil %}
+<form  xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+    <div class="form-group row">
+       <label class="col-md-3 col-form-label">Gedung</label>
+        <div class="col-md-3">
+        {{form_ceil.gedung}}
+     </div>
+    </div>
+
+
+    <div class="form-group row">
+         <label class="col-md-2 col-form-label">Level Lantai</label>
+         <div class="col-md-4">
+            {{form_ceil.level_lantai}}
+         </div>
+      <label class="col-md-2 col-form-label">Nama Ruang</label>
+      <div class="col-md-4">
+           {{form_ceil.nama_ruang}}
+      </div>
+
+
+    </div>
+
+    <label class="col-md-2 col-form-label">Dimensi Luas</label>
+      <div class="col-md-4">
+    {{form_ceil.dim_luas}}
+    </div>
+
+
+    </div>
+
+
+    <label class="col-md-2 col-form-label">Kategori Material</label>
+          <div class="col-md-4">
+    {{form_beton.material}}
+  </div>
+     </div>
+         <br>
+        <div class="col-md-2 form-select">
+              <button type="submit" name="add_beton_btn">Tambah</button>
+         </div>
+
+
+</form>
+{% endif %}
+{% if form_beton.errors %}
+    {% for field in form_beton %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ field.label }}</strong><span>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form_beton.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
+
+
+        <table class="table table-bordered" id="betonTbl">
+            <thead>
+                <tr >
+
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Sisi</th>
+                    <th scope="col">luas</th>
+                    <th scope="col">tebal</th>
+                    <th scope="col">material</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for beton in betons %}
+                <tr class = "record">
+
+                    <th scope="row" >{{beton.id}}</th>
+                    <td><label >{{beton.gedung}}</label></td>
+                    <td><label >{{beton.level_lantai}}</label></td>
+                    <td><label >{{beton.sisi}}</label></td>
+                    <td><label >{{beton.dim_luas}}</label></td>
+                    <td><label >{{beton.dim_tebal}}</label></td>
+                    <td><label >{{beton.material}}</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+<br>
+
+
+ {% endblock subcontent %}

@@ -1,0 +1,60 @@
+{% block pintu %}
+
+<div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      Kategori Pintu {{pesan}}
+    </div>
+  </div>
+{% if form_pintu %}
+<form class="row g-3" xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+
+    <div class="col-md-3">
+    <select name = {{form_dinding.sisi}}class="form-select" aria-label="Default select example">
+      <option selected>Pilih sisi:</option>
+      <option value="sisi1">Sisi 1</option>
+      <option value="sisi2">Sisi 2</option>
+      <option value="sisi3">Sisi 3</option>
+      <option value="sisi4">Sisi 4</option>
+        <option value="notspecified">not specified</option>
+    </select>
+  </div>
+
+
+  <div class="col-md-3">
+    <label class="form-label">Panjang</label>
+    {{form_pintu.dim_panjang}}
+  </div>
+  <div class="col-md-3">
+    <label class="form-label">Lebar</label>
+    {{form_pintu.dim_lebar}}
+  </div>
+    <div class="col-md-3">
+    <label class="form-label">Tebal</label>
+    {{form_pintu.dim_tebal}}
+  </div>
+
+
+    <div class="col-12">
+      <div class="alert alert-light" role="alert">
+  </div>
+
+    <select class="col-md-3 form-select" aria-label="Default select example">
+      <option selected>Pilih Material</option>
+        {% for material in form_pintu.material %}
+      <option value={{material}}></option>
+        {% endfor %}
+    </select>
+        <select class="col-md-4 form-select" aria-label="Default select example">
+      <option selected>Apakah Kontak Langsung dengan Matahari</option>
+      <option value="y">Ya, Kontak Langsung</option>
+      <option value="n">Tidak Kontak Langsung</option>
+    </select>
+        <div class="col-md-2 form-select">
+              <a href= "{% url 'bebankalor:setpintu' %}" class="btn btn-primary"> Tambah </a>
+         </div>
+  </div>
+
+</form>
+{% endif %}
+{% endblock pintu %}

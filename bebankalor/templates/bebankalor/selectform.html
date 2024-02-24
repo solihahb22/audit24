@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<form id="myForm">
+  <select id="mySelect">
+    <option value="option1">Pilihan 1</option>
+    <option value="option2">Pilihan 2</option>
+    <option value="option3">Pilihan 3</option>
+  </select>
+  <div id="formContainer"></div>
+</form>
+{% endblock %}
+
+{% block javascript %}
+<script>
+     // Mendapatkan referensi ke elemen select dan form container
+  var selectElement = document.getElementById("mySelect");
+  var formContainer = document.getElementById("formContainer");
+
+  // Mendefinisikan form yang akan ditampilkan sesuai dengan pilihan
+  var forms = {
+    option1: '<input type="text" name="field1" placeholder="Field 1">',
+    option2: '<input type="text" name="field2" placeholder="Field 2">',
+    option3: '<input type="text" name="field3" placeholder="Field 3">'
+  };
+
+  // Fungsi untuk menampilkan form yang sesuai
+  function showForm() {
+    var selectedOption = selectElement.value;
+    formContainer.innerHTML = forms[selectedOption];
+  }
+
+  // Menambahkan event listener untuk perubahan pada select element
+  selectElement.addEventListener("change", showForm);
+
+  // Menampilkan form awal saat halaman dimuat
+  showForm();
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,505 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block subcontent %}
+
+
+<div class="col-12 mt-5">
+     <div class="alert alert-primary" role="alert">
+               pesan: {{nama}}
+    </div>
+    </div>
+<div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      Kategori Dinding
+    </div>
+  </div>
+{% if form_dinding %}
+<form  xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+    <div class="form-group row">
+       <label class="col-md-2  col-form-label-sm">    Gedung</label>
+        <div class="col-md-10">
+        {{form_dinding.gedung}}
+     </div>
+        </div>
+    <div class="form-group row">
+    <label class="col-md-2 col-form-label">Level Lantai</label>
+         <div class="col-md-4">
+            {{form_dinding.level_lantai}}
+         </div>
+
+      <label class="col-md-2 col-form-label">Nama Ruang</label>
+      <div class="col-md-4">
+           {{form_dinding.nama_ruang}}
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label-sm">Sisi</label>
+      <div class="col-md-4">
+           {{form_dinding.sisi}}
+      </div>
+    <label class="col-md-2 col-form-label-sm">Dimensi Luas</label>
+      <div class="col-md-4">
+    {{form_dinding.dim_luas}}
+    </div>
+    </div>
+
+    <div class="form-group row">
+    <label class="col-md-2 col-form-label-sm">Dimensi Tebal</label>
+         <div class="col-md-4">
+    {{form_dinding.dim_tebal}}
+  </div>
+        <label class="col-md-3 col-form-label-sm">Kategori Material</label>
+          <div class="col-md-3">
+    {{form_dinding.material}}
+  </div>
+    </div>
+        <div class="alert alert-secondary" role="alert">
+          Jika Bukan Dinding Partisi
+  </div>
+        <div class="form-group row">
+        <label class="col-md-2 col-form-label-sm">Arah Matahari</label>
+      <div class="col-md-4">
+           {{form_dinding.arah}}
+      </div>
+        </div>
+
+        </div>
+
+    <div class="form-group row">
+    <label class="col-md-2 col-form-label-sm">Awal Kontak dengan Matahari</label>
+        <div class="col-md-4">
+    {{form_dinding.awal_kontak_matahari}}
+  </div>
+
+      <label class="col-md-2 col-form-label-sm">Akhir Kontak dengan Matahari</label>
+        <div class="col-md-4">
+      {{form_dinding.akhir_kontak_matahari}}
+    </div>
+    </div>
+
+    <div class="col-12">
+            <div class="alert alert-secondary" role="alert">
+             Jika Dinding Partisi
+      </div>
+    </div>
+     <div class="form-group row">
+    <label class="col-md-3 col-form-label-sm">Rerata Temp Ruang Berdekatan</label>
+          <div class="col-md-3">
+             {{form_dinding.temp_rerata_ruang_berdekatan}}
+    </div>
+
+
+     </div>
+         <br>
+        <div class="col-md-2 form-select">
+              <button type="submit" name="add_dinding_btn">Tambah</button>
+         </div>
+
+
+</form>
+{% endif %}
+
+        <table class="table table-bordered" id="coalTbl">
+            <thead>
+                <tr >
+                     <th scope="col">ID Dinding</th>
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Sisi</th>
+                    <th scope="col">luas</th>
+                    <th scope="col">tebal</th>
+                    <th scope="col">material</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for dinding in dindings %}
+                <tr class = "record">
+
+                    <th scope="row" >{{dinding.id}}</th>
+                    <td><label >{{dinding.gedung}}</label></td>
+                    <td><label >{{dinding.level_lantai}}</label></td>
+                    <td><label >{{dinding.sisi}}</label></td>
+                    <td><label >{{dinding.dim_luas}}</label></td>
+                    <td><label >{{dinding.dim_tebal}}</label></td>
+                    <td><label >{{dinding.material}}</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+<br>
+<div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      Kategori Beton
+    </div>
+  </div>
+{% if form_beton %}
+<form  xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+    <div class="form-group row">
+       <label class="col-md-3 col-form-label">Gedung</label>
+        <div class="col-md-3">
+        {{form_beton.gedung}}
+     </div>
+    </div>
+
+
+    <div class="form-group row">
+         <label class="col-md-2 col-form-label">Level Lantai</label>
+         <div class="col-md-4">
+            {{form_beton.level_lantai}}
+         </div>
+      <label class="col-md-2 col-form-label">Nama Ruang</label>
+      <div class="col-md-4">
+           {{form_beton.nama_ruang}}
+      </div>
+
+
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Sisi</label>
+      <div class="col-md-4">
+           {{form_beton.sisi}}
+      </div>
+    <label class="col-md-2 col-form-label">Dimensi Luas</label>
+      <div class="col-md-4">
+    {{form_beton.dim_luas}}
+    </div>
+
+
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Dimensi Tebal</label>
+         <div class="col-md-4">
+    {{form_beton.dim_tebal}}
+  </div>
+    <label class="col-md-2 col-form-label">Kategori Material</label>
+          <div class="col-md-4">
+    {{form_beton.material}}
+  </div>
+     </div>
+         <br>
+        <div class="col-md-2 form-select">
+              <button type="submit" name="add_beton_btn">Tambah</button>
+         </div>
+
+
+</form>
+{% endif %}
+
+        <table class="table table-bordered" id="betonTbl">
+            <thead>
+                <tr >
+
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Sisi</th>
+                    <th scope="col">luas</th>
+                    <th scope="col">tebal</th>
+                    <th scope="col">material</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for beton in betons %}
+                <tr class = "record">
+
+                    <th scope="row" >{{beton.id}}</th>
+                    <td><label >{{beton.gedung}}</label></td>
+                    <td><label >{{beton.level_lantai}}</label></td>
+                    <td><label >{{beton.sisi}}</label></td>
+                    <td><label >{{beton.dim_luas}}</label></td>
+                    <td><label >{{beton.dim_tebal}}</label></td>
+                    <td><label >{{beton.material}}</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+<br>
+
+<div class="col-md-12">
+    <br>
+    <div class="alert alert-primary" role="alert">
+      Kategori Pintu
+    </div>
+  </div>
+{% if form_pintu %}
+<form  xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+
+     <div class="form-group row">
+    <label class="col-md-3 col-form-label">Gedung</label>
+         <div class="col-md-3">
+        {{form_pintu.gedung}}
+     </div>
+
+
+
+     </div>
+  <div class="form-group row">
+       <label class="col-md-3 col-form-label">Level Lantai</label>
+       <div class="col-md-3">
+    {{form_pintu.level_lantai}}
+  </div>
+      <label class="col-md-3 col-form-label">Nama Ruang</label>
+      <div class="col-md-3">
+           {{form_pintu.nama_ruang}}
+      </div>
+
+  </div>
+
+  <div class="form-group row">
+      <label class="col-md-3 col-form-label">Sisi</label>
+         <div class="col-md-3">
+    {{form_pintu.sisi}}
+  </div>
+
+
+
+  </div>
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label">Dimensi Luas</label>
+      <div class="col-md-3">
+    {{form_pintu.dim_luas}}
+  </div>
+    <label class="col-md-3 col-form-label">Dimensi Tebal</label>
+        <div class="col-md-3">
+    {{form_pintu.dim_tebal}}
+  </div>
+        {% if partisi is not True  %}
+        <div class="col-10">
+      <div class="alert alert-secondary" role="alert">
+          Bukan Dinding Partisi
+        </div>
+        </div>
+        <div class="form-group row">
+    <label class="col-md-3 col-form-label">Awal Kontak dengan Matahari</label>
+        <div class="col-md-3">
+    {{form_pintu.awal_kontak_matahari}}
+  </div>
+
+    <label class="col-md-3 col-form-label">Akhir Kontak dengan Matahari</label>
+         <div class="col-md-3">
+    {{form_pintu.akhir_kontak_matahari}}
+  </div>
+   </div>
+        {% elif partisi is True%}
+        <div class="col-10">
+      <div class="alert alert-secondary" role="alert">
+          Dinding Partisi
+  </div>
+     <div class="form-group row">
+    <label class="col-md-3 col-form-label">Rerata Temp Ruang Berdekatan</label>
+          <div class="col-md-3">
+    {{form_pintu.temp_rerata_ruang_berdekatan}}
+  </div>
+
+    <label class="col-md-3 col-form-label">Kategori Material</label>
+          <div class="col-md-3">
+           {{form_pintu.material}}
+  </div>
+     </div>
+        {% endif %}
+
+
+
+         <div class="form-group row">
+    <label class="col-md-3 col-form-label">Frekuensi buka tutup</label>
+              <div class="col-md-3">
+    {{form_pintu.frekwensi_buka_tutup}}
+  </div>
+
+    <label class="col-md-3 col-form-label">Waktu Pintu Terbuka</label>
+        <div class="col-md-3">
+    {{form_pintu.waktu_pintu_terbuka}}
+  </div>
+         </div>
+<br>
+        <div class="col-md-2 form-select">
+              <button type="submit" name="add_pintu_btn">Tambah</button>
+         </div>
+
+</form>
+{% endif %}
+<br>
+        <table class="table table-bordered" >
+            <thead>
+                <tr >
+                     <th scope="col">ID Pintu</th>
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Sisi</th>
+                    <th scope="col">panjang</th>
+                    <th scope="col">lebar</th>
+                    <th scope="col">tebal</th>
+                    <th scope="col">material</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for pintu in pintus %}
+                <tr class = "record">
+
+                    <th scope="row" >{{pintu.id}}</th>
+                    <td><label >{{pintu.gedung}}</label></td>
+                    <td><label >{{pintu.level_lantai}}</label></td>
+                    <td><label >{{pintu.sisi}}</label></td>
+                    <td><label >{{pintu.dim_panjang}}</label></td>
+                    <td><label >{{pintu.dim_lebar}}</label></td>
+                    <td><label >{{pintu.dim_tebal}}</label></td>
+                    <td><label >{{pintu.material}}</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+<br>
+<div class="col-12">
+    <br>
+    <div class="alert alert-primary" role="alert">
+      Kategori Kaca
+    </div>
+  </div>
+{% if form_kaca %}
+<form xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+
+     <div class="form-group row">
+        <label class="col-md-2 col-form-label">Gedung</label>
+         <div class="col-md-3">
+        {{form_kaca.gedung}}
+       </div>
+
+
+     </div>
+  <div class="form-group row">
+      <label class="col-md-3 col-form-label">Level Lantai</label>
+        <div class="col-md-3">
+         {{form_kaca.level_lantai}}
+        </div>
+      <label class="col-md-3 col-form-label">Nama Ruang</label>
+      <div class="col-md-3">
+           {{form_dinding.nama_ruang}}
+      </div>
+
+  </div>
+  <div class="form-group row">
+      <label class="col-md-3 col-form-label">Sisi</label>
+      <div class="col-md-3">
+    {{form_kaca.sisi}}
+  </div>
+    <label class="col-md-3 col-form-label">Dimensi Luas</label>
+      <div class="col-md-3">
+    {{form_kaca.dim_luas}}
+  </div>
+
+
+  </div>
+         <div class="form-group row">
+    <label class="col-md-3 col-form-label">Dimensi Tebal</label>
+        <div class="col-md-3">
+    {{form_kaca.dim_tebal}}
+  </div>
+
+    <label class="col-md-3 col-form-label">Kategori Material</label>
+        <div class="col-md-3">
+    {{form_kaca.material}}
+  </div>
+         </div>
+    <br>
+          <div class="col-10">
+      <div class="alert alert-secondary" role="alert">
+          Jika Kontak dengan Matahari
+  </div>
+          </div>
+    <div class="form-group row">
+    <label class="col-md-3 col-form-label">Awal Kontak dengan Matahari</label>
+        <div class="col-md-3">
+    {{form_kaca.awal_kontak_matahari}}
+  </div>
+
+
+    <label class="col-md-3 col-form-label">Akhir Kontak dengan Matahari</label>
+        <div class="col-md-3">
+    {{form_kaca.akhir_kontak_matahari}}
+  </div>
+    </div>
+     <div class="form-group row">
+    <label class="col-md-3 col-form-label">Arah Matahari</label>
+         <div class="col-md-3">
+    {{form_kaca.arah}}
+  </div>
+     </div>
+    <div class="col-10">
+      <div class="alert alert-secondary" role="alert">
+          Jika Kaca Partisi
+  </div>
+      <div class="form-group row">
+    <label class="col-md-4 col-form-label">Rerata Temperatur Ruang Berdekatan</label>
+         <div class="col-md-3">
+    {{form_kaca.temp_rerata_ruang_berdekatan}}
+  </div>
+      </div>
+    <br>
+        <div class="col-md-2 form-select">
+              <button type="submit" name="add_kaca_btn">Tambah</button>
+         </div>
+    </div>
+
+</form>
+{% endif %}
+<div class="col-12 mt-5">
+     <div class="alert alert-primary" role="alert">
+               pesan: {{pesan_kaca}}
+    </div>
+    </div>
+ <table class="table table-bordered" >
+            <thead>
+                <tr >
+                     <th scope="col">ID Kaca</th>
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Sisi</th>
+                    <th scope="col">luas</th>
+                    <th scope="col">tebal</th>
+                    <th scope="col">material</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for kaca in kacas %}
+                <tr class = "record">
+
+                    <th scope="row" >{{kaca.id}}</th>
+                    <td><label >{{kaca.gedung}}</label></td>
+                    <td><label >{{kaca.level_lantai}}</label></td>
+                    <td><label >{{kaca.sisi}}</label></td>
+                    <td><label >{{kaca.dim_luas}}</label></td>
+                    <td><label >{{kaca.dim_tebal}}</label></td>
+                    <td><label >{{kaca.material}}</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+<br>
+
+ {% endblock subcontent %}

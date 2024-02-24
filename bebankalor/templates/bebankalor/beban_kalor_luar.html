@@ -1,0 +1,61 @@
+00{% extends "base.html" %}
+
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block content %}
+
+
+  <div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      <h3>{{pesan}}</h3>
+    </div>
+  </div>
+
+{% block dinding %}
+
+{% endblock dinding %}
+
+{% block pintu %}
+{% endblock pintu %}
+
+
+         <div class="col-md-3">
+            <a href= "{% url 'bebankalor:setbebandalam' %}" class="btn btn-primary"> Lanjut </a>
+         </div>
+
+
+</form>
+{% endif %}
+<div class="col-12 mt-5">
+        <table class="table table-bordered" id="coalTbl">
+            <thead>
+                <tr >
+                    <th scope="col">Kategori</th>
+                    <th scope="col">sisi</th>
+                    <th scope="col">panjang</th>
+                    <th scope="col">lebar</th>
+                    <th scope="col">tebal</th>
+                    <th scope="col">material</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for beban_luar in beban_luar %}
+                <tr class = "record">
+
+                    <th scope="row" >{{beban_luar.kategori}}</th>
+                    <td><label >{{beban_luar.sisi}}</label></td>
+                    <td><label >{{beban_luar.panjang}}</label></td>
+                    <td><label >{{beban_luar.lebar}</label></td>
+                    <td><label >{{beban_luar.tebal}}</label></td>
+                    <td><label >{{beban_luar.material}}</label></td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

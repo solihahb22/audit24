@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block subcontent %}
+
+
+
+<div class="col-12 mt-5">
+     <div class="alert alert-primary" role="alert">
+               Profil Gedung: {{nama}}
+    </div>
+</div>
+
+<div class="col-md-12">
+    <br>
+    <div class="alert alert-primary" role="alert">
+      Kategori Pintu
+    </div>
+</div>
+{% if form_pintu %}
+<form  class="col-md-12" xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+
+     <div class="form-group row">
+    <label class="col-md-3 col-form-label">Gedung</label>
+         <div class="col-md-3">
+        {{form_pintu.gedung}}
+     </div>
+     </div>
+
+
+
+  <div class="form-group row">
+       <label class="col-md-3 col-form-label">Level Lantai</label>
+       <div class="col-md-3">
+    {{form_pintu.level_lantai}}
+  </div>
+      <label class="col-md-3 col-form-label">Nama Ruang</label>
+      <div class="col-md-3">
+           {{form_pintu.nama_ruang}}
+      </div>
+
+  </div>
+
+  <div class="form-group row">
+      <label class="col-md-3 col-form-label">Sisi</label>
+         <div class="col-md-3">
+    {{form_pintu.sisi}}
+  </div>
+        <label class="col-md-3 col-form-label">Frame</label>
+         <div class="col-md-3">
+    {{form_pintu.frame}}
+  </div>
+
+
+  </div>
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label">Dimensi Luas</label>
+      <div class="col-md-3">
+    {{form_pintu.dim_luas}}
+  </div>
+    <label class="col-md-3 col-form-label">Dimensi Tebal</label>
+        <div class="col-md-3">
+    {{form_pintu.dim_tebal}}
+  </div>
+    </div>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">Kategori Material</label>
+          <div class="col-md-3">
+           {{form_pintu.material}}
+       </div>
+        </div>
+         <div class="form-group row">
+    <label class="col-md-3 col-form-label">Frekuensi buka tutup</label>
+              <div class="col-md-3">
+    {{form_pintu.frekwensi_buka_tutup}}
+  </div>
+
+    <label class="col-md-3 col-form-label">Waktu Pintu Terbuka</label>
+        <div class="col-md-3">
+    {{form_pintu.waktu_pintu_terbuka}}
+  </div>
+         </div>
+
+         <div class="form-group row">
+    <label class="col-md-3 col-form-label">Kategori Pintu</label>
+          <div class="col-md-3">
+        <select id="kategoriPintu" name="partisi" onchange="getDataKategoriPintu()">
+             {% for item in kat_partisi %}
+                <option value="{{item.0}}"
+                {% if item.0 == pintu.partisi  %} selected="selected"{% endif %}>
+                {{item.1}}
+                </option>
+                {% endfor %}
+        </select>
+  </div>
+         </div>
+    <div class="col-12 mt-5 pintu" id = "pintu_nonpartisi" >
+      <div class="alert alert-secondary" role="alert">
+          Propertis Pintu Bukan Partisi
+        </div>
+
+   <div class="form-group row" id="awal">
+    <label class="col-md-3 col-form-label">Awal Kontak dengan Matahari</label>
+        <div class="col-md-3" >
+    {{form_pintu.awal_kontak_matahari}}
+  </div>
+
+    <label class="col-md-3 col-form-label">Akhir Kontak dengan Matahari</label>
+         <div class="col-md-3" id="akhir">
+    {{form_pintu.akhir_kontak_matahari}}
+  </div>
+   </div>
+         </div>
+
+
+    <div class="col-12 mt-5 pintu" id = "pintu_partisi" >
+       <div class="alert alert-secondary" role="alert">
+          Propertis Pintu Partisi
+  </div>
+     <div class="form-group row">
+    <label class="col-md-3 col-form-label">Rerata Temp Ruang Berdekatan</label>
+          <div class="col-md-3" id="temp_rerata">
+    {{form_pintu.temp_rerata_ruang_berdekatan}}
+  </div>
+     </div>
+    </div>
+    </div>
+
+
+
+<br>     {% if edited %}
+        <div class="col-md-2 form-select">
+              <button type="submit" name="add_pintu_btn">{% if add_bl %} Tambah {% else %} Edit {% endif %}</button>
+         </div>
+        {% endif %}
+</form>
+{% endif %}
+<br>
+        <table class="table table-bordered" >
+            <thead>
+                <tr >
+                     <!--th scope="col">ID Pintu</th-->
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Sisi</th>
+                    <th scope="col">Luas</th>
+                    <th scope="col">Tebal</th>
+                    <th scope="col">Material</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for pintu in pintus %}
+                <tr class = "record">
+
+                    <!--th scope="row" >{{pintu.id}}</th-->
+                    <td><label >{{pintu.gedung}}</label></td>
+                    <td><label >{{pintu.level_lantai}}</label></td>
+                    <td><label >{{pintu.sisi}}</label></td>
+                    <td><label >{{pintu.dim_luas}}</label></td>
+                    <td><label >{{pintu.dim_tebal}}</label></td>
+                    <td><label >{{pintu.material}}</label></td>
+                    <td>
+                        <form method="post" action="#">
+                             {% csrf_token %}
+                             <a href="{% url 'bebankalor:viewpintu' pintu.id %}" class="btn btn-outline-success">View</a>
+                             <a href="{% url 'bebankalor:updatepintu' pintu.id %}" class="btn btn-outline-success">Edit</a>
+                             <a href="{% url 'bebankalor:deletepintu' pintu.id %}" class="btn btn-outline-warning">Delete</a>
+                        </form>
+                    </td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+<br>
+
+
+
+<br>
+
+ {% endblock subcontent %}
+{% block javascript %}
+  <!-- Default content for the JavaScript block -->
+<script type = "text/javascript" src ="{% static 'js/kategoripintu.js' %}"></script>
+  {% endblock %}

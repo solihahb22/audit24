@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+{{heading}}
+{% endblock title %}
+
+{% block subcontent %}
+
+
+<div class="col-12 mt-5">
+     <div class="alert alert-primary" role="alert">
+               Profil Gedung: {{nama}}
+    </div>
+    </div>
+
+<div class="col-12">
+    <br>
+    <div class="alert alert-primary" role="alert">
+      Kategori Kaca
+    </div>
+  </div>
+{% if form_kaca %}
+<form class="col-12 mt-5" xmlns="http://www.w3.org/1999/html" method="post">
+    {% csrf_token %}
+
+     <div class="form-group row">
+        <label class="col-md-2 col-form-label">Gedung</label>
+         <div class="col-md-3">
+        {{form_kaca.gedung}}
+       </div>
+
+
+     </div>
+  <div class="form-group row">
+      <label class="col-md-2 col-form-label">Level Lantai</label>
+        <div class="col-md-3">
+         {{form_kaca.level_lantai}}
+        </div>
+      <label class="col-md-3 col-form-label">Nama Ruang</label>
+      <div class="col-md-3">
+           {{form_kaca.nama_ruang}}
+      </div>
+
+  </div>
+  <div class="form-group row">
+      <label class="col-md-2 col-form-label">Sisi</label>
+      <div class="col-md-3">
+    {{form_kaca.sisi}}
+  </div>
+    <label class="col-md-3 col-form-label">Dimensi Luas</label>
+      <div class="col-md-3">
+    {{form_kaca.dim_luas}}
+  </div>
+<label class="col-md-2 col-form-label">Dimensi Tebal</label>
+        <div class="col-md-3">
+    {{form_kaca.dim_tebal}}
+  </div>
+
+  </div>
+  <div class="form-group row">
+    <label class="col-md-2 col-form-label">Kategori Material</label>
+    <div class="col-md-3">
+        {{form_kaca.material}}
+    </div>
+    <label class="col-md-3 col-form-label">Sub Kategori Material</label>
+    <div class="col-md-3">
+        {{form_kaca.sub_kategori_material}}
+    </div>
+  </div>
+
+    <div class="form-group row">
+    <label class="col-md-2 col-form-label">Kategori Lapisan</label>
+    <div class="col-md-3">
+        {{form_kaca.jumlah_lapisan }}
+    </div>
+    <label class="col-md-3 col-form-label">Kategori Frame</label>
+    <div class="col-md-3">
+        {{form_kaca.jenis_frame}}
+    </div>
+  </div>
+
+
+     <div class="form-group row">
+    <label class="col-md-2 col-form-label">Kategori Kaca</label>
+
+    <select class="col-md-2" id="kategoriKaca" name="partisi" onchange="getDataKategoriKaca()">
+             {% for item in kat_partisi %}
+                <option value="{{item.0}}"
+                {% if item.0 == kaca.partisi  %} selected="selected"{% endif %}>
+                {{item.1}}
+                </option>
+                {% endfor %}
+        </select>
+    </div>
+         </div>
+    <div class="col-12 mt-5 kaca" id = "kaca_nonpartisi" >
+
+      <div class="alert alert-secondary" role="alert">
+          Propertis Kaca Non Partisi
+  </div>
+
+    <div class="form-group row">
+    <label class="col-md-3 col-form-label">Awal Kontak dengan Matahari</label>
+        <div class="col-md-3">
+    {{form_kaca.awal_kontak_matahari}}
+  </div>
+
+
+    <label class="col-md-3 col-form-label">Akhir Kontak dengan Matahari</label>
+        <div class="col-md-3">
+    {{form_kaca.akhir_kontak_matahari}}
+  </div>
+    </div>
+     <div class="form-group row">
+    <label class="col-md-3 col-form-label">Arah Matahari</label>
+         <div class="col-md-3">
+    {{form_kaca.arah}}
+  </div>
+     </div>
+    </div>
+    <div class="kaca" id = "kaca_partisi" >
+    <div class="col-12 mt-5">
+      <div class="alert alert-secondary" role="alert">
+          Propertis Kaca Partisi
+  </div>
+      <div class="form-group row">
+    <label class="col-md-4 col-form-label">Rerata Temperatur Ruang Berdekatan</label>
+         <div class="col-md-3">
+    {{form_kaca.temp_rerata_ruang_berdekatan}}
+  </div>
+      </div>
+    </div>
+    </div>
+    <br>
+    {% if edited %}
+        <div class="col-md-2 form-select">
+              <button type="submit" name="add_kaca_btn">{% if add_bl %} Tambah {% else %} Edit {% endif %} </button>
+         </div>
+    {% endif %}
+
+</form>
+{% endif %}
+<div class="col-12 mt-5">
+     <div class="alert alert-primary" role="alert">
+               pesan: {{pesan_kaca}}
+    </div>
+    </div>
+ <table class="table table-bordered" >
+            <thead>
+                <tr >
+                     <!--th scope="col" >ID Kaca</th> -->
+                    <th scope="col">Gedung</th>
+                    <th scope="col">Level Lantai</th>
+                    <th scope="col">Sisi</th>
+                    <th scope="col">luas</th>
+                    <th scope="col">tebal</th>
+                    <th scope="col">material</th>
+                    <th scope="col">aksi</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for kaca in kacas %}
+                <tr class = "record">
+
+                    <!--th scope="row" >{{kaca.id}}</th -->
+                    <td><label >{{kaca.gedung}}</label></td>
+                    <td><label >{{kaca.level_lantai}}</label></td>
+                    <td><label >{{kaca.sisi}}</label></td>
+                    <td><label >{{kaca.dim_luas}}</label></td>
+                    <td><label >{{kaca.dim_tebal}}</label></td>
+                    <td><label >{{kaca.material}}</label></td>
+                    <td>
+                        <form method="post" action="#">
+                             {% csrf_token %}
+                             <a href="{% url 'bebankalor:viewkaca' kaca.id %}" class="btn btn-outline-success">View</a>
+                             <a href="{% url 'bebankalor:updatekaca' kaca.id %}" class="btn btn-outline-success">Edit</a>
+                             <a href="{% url 'bebankalor:deletekaca' kaca.id %}" class="btn btn-outline-warning">Delete</a>
+                        </form>
+                    </td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+<br>
+
+ {% endblock subcontent %}
+{% block javascript %}
+  <!-- Default content for the JavaScript block -->
+<script type = "text/javascript" src ="{% static 'js/kategorikaca.js' %}"></script>
+  {% endblock %}
